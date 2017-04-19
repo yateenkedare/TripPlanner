@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TRIP PLANNER</string>
+    <string name="default_web_client_id_string">162682356282-vhkua9hmm8gt60hqhob50am5sb6q2qg6.apps.googleusercontent.com	</string>
+    <string-array name="Gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+</resources>
