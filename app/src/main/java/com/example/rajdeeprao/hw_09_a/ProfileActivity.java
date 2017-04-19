@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -135,6 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
                 user.setPhotoURL(photoURL);
                 user.setGender(spinnerVal);
                 rootRef.child(firebaseUser.getUid()).setValue(user);
+                Toast.makeText(ProfileActivity.this,"Changes made successfully",Toast.LENGTH_LONG).show();
             }
         });
 
