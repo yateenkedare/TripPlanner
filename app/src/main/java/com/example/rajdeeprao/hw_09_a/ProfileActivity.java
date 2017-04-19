@@ -140,6 +140,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.discoverFriends).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ProfileActivity.this,DiscoverFriendsAcitivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
