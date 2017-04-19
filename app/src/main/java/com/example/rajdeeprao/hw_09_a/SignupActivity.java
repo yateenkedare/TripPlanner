@@ -1,6 +1,7 @@
 package com.example.rajdeeprao.hw_09_a;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -116,7 +118,6 @@ public class SignupActivity extends AppCompatActivity implements GoogleApiClient
                                         User user=new User(fName,lName,"tempUrL","male");
                                         rootRef.child(firebaseUser.getUid()).setValue(user);
                                         finish();
-                                        mAuth.signOut();
                                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
 
 
@@ -240,6 +241,22 @@ public class SignupActivity extends AppCompatActivity implements GoogleApiClient
                             Toast.makeText(SignupActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }else{
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            String name = user.getDisplayName();
+                            String email = user.getEmail();
+                            Uri photoUrl = user.getPhotoUrl();
+                            for (UserInfo userInfo : user.getProviderData()) {
+                                if (name == null && userInfo.getDisplayName() != null) {
+                                    name = userInfo.getDisplayName();
+                                }
+                            }
+                            String[] names=name.split(" ");
+                            String fName=names[0];
+                            String lName=names[names.length-1];
+                            Log.d("Demo:", "Name: "+fName+" "+lName+" email: "+email+" Photo:"+photoUrl.toString());
+                            User thisuser=new User(fName,lName,photoUrl.toString(),"male");
+                            rootRef.child(user.getUid()).setValue(thisuser);
+
                             startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
                         }
                         // ...

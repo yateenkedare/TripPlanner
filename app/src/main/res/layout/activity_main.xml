@@ -40,4 +40,5 @@
             android:text="Sign Up"
             android:id="@+id/btn_signUp"/>
     </LinearLayout>
+
 </LinearLayout>

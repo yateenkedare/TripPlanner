@@ -32,7 +32,7 @@ import java.io.ByteArrayOutputStream;
 
 public class ProfileActivity extends AppCompatActivity {
     ImageView profilePicture;
-    String spinnerVal;
+    String spinnerVal, photoURL;
     FirebaseStorage storage;
     String path;
     FirebaseDatabase db;
@@ -66,10 +66,13 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.d("USER1:",user.toString());
                     Log.d("USER2:",snapshot.getKey());
                     if(snapshot.getKey().toString().equals(firebaseUser.getUid().toString())){
-                        if(!user.getPhotoURL().equals("tempUrL"))
-                        Picasso.with(ProfileActivity.this)
-                                .load(user.getPhotoURL())
-                                .into(profilePicture);
+                        if(!user.getPhotoURL().equals("tempUrL")){
+                            Picasso.with(ProfileActivity.this)
+                                    .load(user.getPhotoURL())
+                                    .into(profilePicture);
+                            photoURL=user.getPhotoURL();
+                        }
+
 
                         firstName.setText(user.getfName());
                         lastName.setText(user.getlName());
@@ -129,6 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String lname=lastName.getText().toString();
                 user.setfName(fname);
                 user.setlName(lname);
+                user.setPhotoURL(photoURL);
                 user.setGender(spinnerVal);
                 rootRef.child(firebaseUser.getUid()).setValue(user);
             }
