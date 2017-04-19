@@ -1,13 +1,24 @@
 package com.example.rajdeeprao.hw_09_a;
 
+import java.util.ArrayList;
+
 /**
  * Created by rajdeeprao on 4/16/17.
  */
 
 public class User {
     String fName,lName,photoURL,gender;
+    ArrayList<User> friends;
 
     public User() {
+    }
+
+    public ArrayList<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(ArrayList<User> friends) {
+        this.friends = friends;
     }
 
     public User(String fName, String lName, String photoURL, String gender) {

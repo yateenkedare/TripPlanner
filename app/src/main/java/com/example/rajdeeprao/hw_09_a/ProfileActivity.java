@@ -1,5 +1,6 @@
 package com.example.rajdeeprao.hw_09_a;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -55,7 +56,10 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseUser=temp.getCurrentUser();
         final EditText firstName= (EditText) findViewById(R.id.fName);
         final EditText lastName= (EditText) findViewById(R.id.lName);
-
+        final ProgressDialog progressDialog=new ProgressDialog(ProfileActivity.this);
+        progressDialog.setMessage("Loading..");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
 
         profilePicture= (ImageView) findViewById(R.id.profilePicture);
         ref2 = db.getReference("Users");
@@ -72,6 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     .load(user.getPhotoURL())
                                     .into(profilePicture);
                             photoURL=user.getPhotoURL();
+                            progressDialog.dismiss();
                         }
 
 

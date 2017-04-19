@@ -11,8 +11,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +31,11 @@ public class UserAdapter extends ArrayAdapter<User> {
     Context context;
     int resource;
     List<User> objects;
+
+    DatabaseReference ref2;
+    FirebaseDatabase db;
+    int pos;
+
     public UserAdapter(Context context, int resource, List<User> objects) {
         super(context, resource, objects);
         this.context=context;
@@ -33,6 +46,7 @@ public class UserAdapter extends ArrayAdapter<User> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        pos=position;
         if (convertView == null) {
             LayoutInflater inflater= (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView=inflater.inflate(resource,parent,false);
@@ -49,6 +63,44 @@ public class UserAdapter extends ArrayAdapter<User> {
             @Override
             public void onClick(View v) {
                 Log.d("Demo:","Friend added");
+                db = FirebaseDatabase.getInstance();
+                ref2 = db.getReference("Users");
+                ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                            User user=snapshot.getValue(User.class);
+                            Log.d("USER1:",user.toString());
+                            Log.d("USER2:",snapshot.getKey());
+                            if(snapshot.getKey().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid().toString())){
+                                if(user.getFriends()!=null){
+                                    ArrayList<User> friends=new ArrayList<User>(user.getFriends());
+                                    friends.add(objects.get(pos));
+                                    user.setFriends(friends);
+                                }
+                                else{
+                                    ArrayList<User> friends=new ArrayList<User>();
+                                    friends.add(objects.get(pos));
+                                    user.setFriends(friends);
+                                }
+                                ref2.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user);
+
+                            }
+
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Getting Post failed, log a message
+                        Log.w("Demo", "loadPost:onCancelled", databaseError.toException());
+                        // ...
+                    }
+                });
+
             }
         });
 

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,9 +36,14 @@ public class DiscoverFriendsAcitivity extends AppCompatActivity {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     user=snapshot.getValue(User.class);
                     Log.d("Users:",user.toString());
+                    if(!snapshot.getKey().toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid().toString()))
                     usersList.add(user);
                 }
-
+                ListView lv= (ListView) findViewById(R.id.listView);
+                //ArrayAdapter<Color> adapter=new ArrayAdapter<Color>(this,android.R.layout.simple_list_item_1,colors);
+                UserAdapter adapter=new UserAdapter(DiscoverFriendsAcitivity.this,R.layout.friendsview,usersList);
+                lv.setAdapter(adapter);
+                adapter.setNotifyOnChange(true);
 
             }
 
@@ -48,11 +55,7 @@ public class DiscoverFriendsAcitivity extends AppCompatActivity {
             }
         });
 
-        ListView lv= (ListView) findViewById(R.id.listView);
-        //ArrayAdapter<Color> adapter=new ArrayAdapter<Color>(this,android.R.layout.simple_list_item_1,colors);
-        UserAdapter adapter=new UserAdapter(this,R.layout.friendsview,usersList);
-        lv.setAdapter(adapter);
-        adapter.setNotifyOnChange(true);
+
 
     }
 }
