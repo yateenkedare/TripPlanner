@@ -116,6 +116,7 @@ public class SignupActivity extends AppCompatActivity implements GoogleApiClient
                                         FirebaseAuth temp=FirebaseAuth.getInstance();
                                         FirebaseUser firebaseUser=temp.getCurrentUser();
                                         User user=new User(fName,lName,"tempUrL","male");
+                                        user.setId(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
                                         rootRef.child(firebaseUser.getUid()).setValue(user);
                                         finish();
                                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
@@ -255,6 +256,8 @@ public class SignupActivity extends AppCompatActivity implements GoogleApiClient
                             String lName=names[names.length-1];
                             Log.d("Demo:", "Name: "+fName+" "+lName+" email: "+email+" Photo:"+photoUrl.toString());
                             User thisuser=new User(fName,lName,photoUrl.toString(),"male");
+                            thisuser.setId(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+
                             rootRef.child(user.getUid()).setValue(thisuser);
 
                             startActivity(new Intent(getApplicationContext(),ProfileActivity.class));

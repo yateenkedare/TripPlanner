@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -77,9 +78,12 @@ public class ProfileActivity extends AppCompatActivity {
                                     .into(profilePicture);
                             photoURL=user.getPhotoURL();
                             progressDialog.dismiss();
+
                         }
-
-
+                        progressDialog.dismiss();
+                        TextView requests= (TextView) findViewById(R.id.requests);
+                        if(user.getRequests()!=null)
+                            requests.setText(user.getRequests().toString());
                         firstName.setText(user.getfName());
                         lastName.setText(user.getlName());
                     }
@@ -138,10 +142,18 @@ public class ProfileActivity extends AppCompatActivity {
                 String lname=lastName.getText().toString();
                 user.setfName(fname);
                 user.setlName(lname);
-                user.setPhotoURL(photoURL);
+                user.setPhotoURL(user.getPhotoURL());
+                user.setId(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
                 user.setGender(spinnerVal);
                 rootRef.child(firebaseUser.getUid()).setValue(user);
                 Toast.makeText(ProfileActivity.this,"Changes made successfully",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        findViewById(R.id.signout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
             }
         });
 
@@ -152,6 +164,8 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
     }
 

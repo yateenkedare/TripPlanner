@@ -7,18 +7,46 @@ import java.util.ArrayList;
  */
 
 public class User {
-    String fName,lName,photoURL,gender;
-    ArrayList<User> friends;
+    String fName,lName,photoURL,gender,id;
+    ArrayList<String> friends;
+
+    public ArrayList<String> getRequestsReceived() {
+        return requestsReceived;
+    }
+
+    public void setRequestsReceived(ArrayList<String> requestsReceived) {
+        this.requestsReceived = requestsReceived;
+    }
+
+    ArrayList<String> requestsReceived;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    ArrayList<String> requests;
 
     public User() {
     }
 
-    public ArrayList<User> getFriends() {
+    public ArrayList<String> getFriends() {
         return friends;
     }
 
-    public void setFriends(ArrayList<User> friends) {
+    public void setFriends(ArrayList<String> friends) {
         this.friends = friends;
+    }
+
+    public ArrayList<String> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(ArrayList<String> requests) {
+        this.requests = requests;
     }
 
     public User(String fName, String lName, String photoURL, String gender) {
