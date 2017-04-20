@@ -154,6 +154,15 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
+                finish();
+            }
+        });
+
+        findViewById(R.id.requestsAcitivityButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ProfileActivity.this,RequestsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -179,7 +188,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Uri selectedImage = data.getData();
                     profilePicture.setImageURI(selectedImage);
 
-                    path="profilePicture.png";
+                    path="profilePicture.png"+firebaseUser.getUid().toString();
                     StorageReference storageRef = storage.getReference(path);
 
                     profilePicture.setDrawingCacheEnabled(true);

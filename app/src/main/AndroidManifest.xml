@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".DiscoverFriendsAcitivity"></activity>
+        <activity android:name=".DiscoverFriendsAcitivity" />
+        <activity android:name=".RequestsActivity"></activity>
     </application>
 
 </manifest>
